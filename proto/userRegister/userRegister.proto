@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package userRegister;
+
+option go_package = "./proto/userRegister;pbUserRegister";
+
+service UserRegister {
+	rpc GenerateMessage(PublickeyAddr) returns (RandomCode) {}
+	rpc GenerateToken(EncryptedValue) returns (Token) {}
+}
+
+message PublickeyAddr {
+	//存入mongodb与redis
+	string pbkAddr = 1;
+}
+
+message RandomCode {
+	//返回一个128位的随机码，并且存入redis
+	string randomCode = 1;
+}
+
+message EncryptedValue {
+	string publicKey = 1;
+	string sign = 2;
+}
+message Token {
+	string token = 1;
+	string uid = 2;
+}
+

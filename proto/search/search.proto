@@ -1,0 +1,60 @@
+syntax = "proto3";
+
+package search;
+
+option go_package = "./proto/search;pbSearch";
+
+service OperateSearch {
+  rpc SearchID(UserID) returns (SearchContentResults) {}
+  rpc SearchContent(Content) returns (SearchContentResults) {}
+  rpc SearchUser(Content) returns (SearchUserResults) {}
+}
+
+message UserID {
+  string uid = 1;
+  string timestamp = 2;
+  int64 show_number = 3 [json_name="show_number"];
+  int64 page_number = 4 [json_name="page_number"];
+}
+
+message Content {
+  string content = 1;
+  string timestamp = 2;
+  int64 show_number = 3 [json_name="show_number"];
+  int64 page_number = 4 [json_name="page_number"];
+}
+
+message SearchContentResult {
+  string uid = 1;
+  string oid = 2;
+  int64 like_times = 3;
+  string content = 4;
+  string create_time = 5;
+  int64 comment_times = 6;
+  int64 shard_times = 7;
+}
+
+message SearchContentResults {
+  repeated SearchContentResult data = 1;
+  int64 show_number = 2 [json_name="show_number"];
+  int64 current_page = 3 [json_name="current_page"];
+  string timestamp = 4;
+}
+
+message SearchUserResult {
+  string ops_account = 1;
+  string nick_name = 2;
+  string register_time = 3;
+  string profile = 4;
+  string banner = 5;
+  string description = 6;
+  string link = 7;
+  string location = 8;
+  string uid = 9;
+}
+
+message SearchUserResults {
+  repeated SearchUserResult data = 1;
+  int64 show_number = 2 [json_name="show_number"];
+  int64 current_page = 3 [json_name="current_page"];
+}

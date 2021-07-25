@@ -1,0 +1,316 @@
+@startuml
+namespace azureStorage {
+    class Azure << (S,Aquamarine) >> {
+        + Container azblob.ContainerURL
+
+    }
+}
+
+
+namespace handler {
+    class UserInfo << (S,Aquamarine) >> {
+        + Uid string
+        + OpsAccount string
+        + NickName string
+        + Description string
+        + Link string
+        + RegisterTime string
+        + Profile string
+        + Banner string
+        + Location string
+        + IsOfficialUser bool
+        + Label string
+
+        + StoreUserInfo(ctx context.Context, value *userInfo.UserInfo, result *userInfo.OperateResult) error
+        + UpdateUserInfo(ctx context.Context, value *userInfo.UserInfo, result *userInfo.UserInfo) error
+        + DeleteUserInfo(ctx context.Context, value *userInfo.QueryAndDelete, result *userInfo.OperateResult) error
+        + QueryUserInfo(ctx context.Context, value *userInfo.QueryAndDelete, result *userInfo.UserInfo) error
+        + IsRepeatedOpsAccount(ctx context.Context, account *userInfo.CheckOpsAccount, result *userInfo.OperateResult) error
+        + OneStepProtect(ctx context.Context, private *userInfo.SetPrivate, result *userInfo.OperateResult) error
+        + ModifyOopNum(ctx context.Context, value *userInfo.OopNum, result *userInfo.OperateResult) error
+        + SetPrice(ctx context.Context, value *userInfo.Price, result *userInfo.Price) error
+        + SetTotalReleaseOCardNum(ctx context.Context, value *userInfo.TotalReleaseOCardNum, result *userInfo.OperateResult) error
+        + SetValue(info *userInfo.UserInfo) string
+
+    }
+    class UserInfoOnMongo << (S,Aquamarine) >> {
+        + Uid string
+        + OpsAccount string
+        + NickName string
+        + Description string
+        + Link string
+        + RegisterTime string
+        + Profile string
+        + Banner string
+        + OldProfileLink string
+        + OldBannerLink string
+        + Location string
+        + IsOfficialUser bool
+        + Label string
+        + IsPrivate bool
+        + OopNumber int64
+        + TotalAmount int64
+        + Price float64
+        + Following int64
+        + Followed int64
+
+    }
+}
+
+
+namespace mgodb {
+    class Database << (S,Aquamarine) >> {
+        + Mongo *mongo.Client
+
+    }
+    class mgo << (S,Aquamarine) >> {
+        - database string
+        - collection string
+
+        + FindOne(filter <font color=blue>interface</font>{}) *mongo.SingleResult
+        + FindMany(filter <font color=blue>interface</font>{}, opts ...*options.FindOptions) (*mongo.Cursor, string)
+        + InsertOne(value <font color=blue>interface</font>{}) string
+        + UpdateOne(uid string, value <font color=blue>interface</font>{}) string
+        + FindOneAndUpdate(uid string, value <font color=blue>interface</font>{}) *mongo.SingleResult
+        + CollectionCount() (string, int64)
+        + CollectionDocuments(Skip int64, Limit int64, sort int) *mongo.Cursor
+        + ParsingId(result string) (time.Time, uint64)
+        + DeleteAndFind(key string, value <font color=blue>interface</font>{}) (int64, *mongo.SingleResult)
+        + Delete(key string, value <font color=blue>interface</font>{}) string
+        + DeleteMany(key string, value <font color=blue>interface</font>{}) int64
+
+    }
+}
+
+
+namespace rdb {
+    class Redisdb << (S,Aquamarine) >> {
+        + RedisClient *redis.Client
+
+    }
+}
+
+
+namespace userInfo {
+    class CheckOpsAccount << (S,Aquamarine) >> {
+        - state protoimpl.MessageState
+        - sizeCache protoimpl.SizeCache
+        - unknownFields protoimpl.UnknownFields
+
+        + OpsAccount string
+
+        + Reset() 
+        + String() string
+        + ProtoMessage() 
+        + ProtoReflect() protoreflect.Message
+        + Descriptor() ([]byte, []int)
+        + GetOpsAccount() string
+
+    }
+    class OopNum << (S,Aquamarine) >> {
+        - state protoimpl.MessageState
+        - sizeCache protoimpl.SizeCache
+        - unknownFields protoimpl.UnknownFields
+
+        + Uid string
+        + Num int64
+
+        + Reset() 
+        + String() string
+        + ProtoMessage() 
+        + ProtoReflect() protoreflect.Message
+        + Descriptor() ([]byte, []int)
+        + GetUid() string
+        + GetNum() int64
+
+    }
+    class OperateResult << (S,Aquamarine) >> {
+        - state protoimpl.MessageState
+        - sizeCache protoimpl.SizeCache
+        - unknownFields protoimpl.UnknownFields
+
+        + Code string
+
+        + Reset() 
+        + String() string
+        + ProtoMessage() 
+        + ProtoReflect() protoreflect.Message
+        + Descriptor() ([]byte, []int)
+        + GetCode() string
+
+    }
+    interface OperateUserInfoHandler  {
+        + StoreUserInfo( "context.Context,  *UserInfo,  *OperateResult) error
+        + UpdateUserInfo( "context.Context,  *UserInfo,  *UserInfo) error
+        + DeleteUserInfo( "context.Context,  *QueryAndDelete,  *OperateResult) error
+        + QueryUserInfo( "context.Context,  *QueryAndDelete,  *UserInfo) error
+        + IsRepeatedOpsAccount( "context.Context,  *CheckOpsAccount,  *OperateResult) error
+        + OneStepProtect( "context.Context,  *SetPrivate,  *OperateResult) error
+        + ModifyOopNum( "context.Context,  *OopNum,  *OperateResult) error
+        + SetPrice( "context.Context,  *Price,  *Price) error
+        + SetTotalReleaseOCardNum( "context.Context,  *TotalReleaseOCardNum,  *OperateResult) error
+
+    }
+    interface OperateUserInfoService  {
+        + StoreUserInfo(ctx "context.Context, in *UserInfo, opts ...client.CallOption) (*OperateResult, error)
+        + UpdateUserInfo(ctx "context.Context, in *UserInfo, opts ...client.CallOption) (*UserInfo, error)
+        + DeleteUserInfo(ctx "context.Context, in *QueryAndDelete, opts ...client.CallOption) (*OperateResult, error)
+        + QueryUserInfo(ctx "context.Context, in *QueryAndDelete, opts ...client.CallOption) (*UserInfo, error)
+        + IsRepeatedOpsAccount(ctx "context.Context, in *CheckOpsAccount, opts ...client.CallOption) (*OperateResult, error)
+        + OneStepProtect(ctx "context.Context, in *SetPrivate, opts ...client.CallOption) (*OperateResult, error)
+        + ModifyOopNum(ctx "context.Context, in *OopNum, opts ...client.CallOption) (*OperateResult, error)
+        + SetPrice(ctx "context.Context, in *Price, opts ...client.CallOption) (*Price, error)
+        + SetTotalReleaseOCardNum(ctx "context.Context, in *TotalReleaseOCardNum, opts ...client.CallOption) (*OperateResult, error)
+
+    }
+    class Price << (S,Aquamarine) >> {
+        - state protoimpl.MessageState
+        - sizeCache protoimpl.SizeCache
+        - unknownFields protoimpl.UnknownFields
+
+        + Uid string
+        + Price float64
+
+        + Reset() 
+        + String() string
+        + ProtoMessage() 
+        + ProtoReflect() protoreflect.Message
+        + Descriptor() ([]byte, []int)
+        + GetUid() string
+        + GetPrice() float64
+
+    }
+    class QueryAndDelete << (S,Aquamarine) >> {
+        - state protoimpl.MessageState
+        - sizeCache protoimpl.SizeCache
+        - unknownFields protoimpl.UnknownFields
+
+        + Uid string
+
+        + Reset() 
+        + String() string
+        + ProtoMessage() 
+        + ProtoReflect() protoreflect.Message
+        + Descriptor() ([]byte, []int)
+        + GetUid() string
+
+    }
+    class SetPrivate << (S,Aquamarine) >> {
+        - state protoimpl.MessageState
+        - sizeCache protoimpl.SizeCache
+        - unknownFields protoimpl.UnknownFields
+
+        + Uid string
+        + IsPrivate bool
+
+        + Reset() 
+        + String() string
+        + ProtoMessage() 
+        + ProtoReflect() protoreflect.Message
+        + Descriptor() ([]byte, []int)
+        + GetUid() string
+        + GetIsPrivate() bool
+
+    }
+    class TotalReleaseOCardNum << (S,Aquamarine) >> {
+        - state protoimpl.MessageState
+        - sizeCache protoimpl.SizeCache
+        - unknownFields protoimpl.UnknownFields
+
+        + Uid string
+        + ReleaseCardNum int64
+
+        + Reset() 
+        + String() string
+        + ProtoMessage() 
+        + ProtoReflect() protoreflect.Message
+        + Descriptor() ([]byte, []int)
+        + GetUid() string
+        + GetReleaseCardNum() int64
+
+    }
+    class UserInfo << (S,Aquamarine) >> {
+        - state protoimpl.MessageState
+        - sizeCache protoimpl.SizeCache
+        - unknownFields protoimpl.UnknownFields
+
+        + Uid string
+        + OpsAccount string
+        + NickName string
+        + Description string
+        + Link string
+        + RegisterTime string
+        + Profile string
+        + Banner string
+        + OldProfileLink string
+        + OldBannerLink string
+        + Location string
+        + IsOfficialUser bool
+        + Label string
+        + IsPrivate bool
+        + OopNumber int64
+        + TotalAmount int64
+        + Price float64
+        + Following int64
+        + Followed int64
+
+        + Reset() 
+        + String() string
+        + ProtoMessage() 
+        + ProtoReflect() protoreflect.Message
+        + Descriptor() ([]byte, []int)
+        + GetUid() string
+        + GetOpsAccount() string
+        + GetNickName() string
+        + GetDescription() string
+        + GetLink() string
+        + GetRegisterTime() string
+        + GetProfile() string
+        + GetBanner() string
+        + GetOldProfileLink() string
+        + GetOldBannerLink() string
+        + GetLocation() string
+        + GetIsOfficialUser() bool
+        + GetLabel() string
+        + GetIsPrivate() bool
+        + GetOopNumber() int64
+        + GetTotalAmount() int64
+        + GetPrice() float64
+        + GetFollowing() int64
+        + GetFollowed() int64
+
+    }
+    class operateUserInfoHandler << (S,Aquamarine) >> {
+        + StoreUserInfo(ctx "context.Context, in *UserInfo, out *OperateResult) error
+        + UpdateUserInfo(ctx "context.Context, in *UserInfo, out *UserInfo) error
+        + DeleteUserInfo(ctx "context.Context, in *QueryAndDelete, out *OperateResult) error
+        + QueryUserInfo(ctx "context.Context, in *QueryAndDelete, out *UserInfo) error
+        + IsRepeatedOpsAccount(ctx "context.Context, in *CheckOpsAccount, out *OperateResult) error
+        + OneStepProtect(ctx "context.Context, in *SetPrivate, out *OperateResult) error
+        + ModifyOopNum(ctx "context.Context, in *OopNum, out *OperateResult) error
+        + SetPrice(ctx "context.Context, in *Price, out *Price) error
+        + SetTotalReleaseOCardNum(ctx "context.Context, in *TotalReleaseOCardNum, out *OperateResult) error
+
+    }
+    class operateUserInfoService << (S,Aquamarine) >> {
+        - c client.Client
+        - name string
+
+        + StoreUserInfo(ctx "context.Context, in *UserInfo, opts ...client.CallOption) (*OperateResult, error)
+        + UpdateUserInfo(ctx "context.Context, in *UserInfo, opts ...client.CallOption) (*UserInfo, error)
+        + DeleteUserInfo(ctx "context.Context, in *QueryAndDelete, opts ...client.CallOption) (*OperateResult, error)
+        + QueryUserInfo(ctx "context.Context, in *QueryAndDelete, opts ...client.CallOption) (*UserInfo, error)
+        + IsRepeatedOpsAccount(ctx "context.Context, in *CheckOpsAccount, opts ...client.CallOption) (*OperateResult, error)
+        + OneStepProtect(ctx "context.Context, in *SetPrivate, opts ...client.CallOption) (*OperateResult, error)
+        + ModifyOopNum(ctx "context.Context, in *OopNum, opts ...client.CallOption) (*OperateResult, error)
+        + SetPrice(ctx "context.Context, in *Price, opts ...client.CallOption) (*Price, error)
+        + SetTotalReleaseOCardNum(ctx "context.Context, in *TotalReleaseOCardNum, opts ...client.CallOption) (*OperateResult, error)
+
+    }
+}
+"userInfo.OperateUserInfoHandler" *-- "userInfo.operateUserInfoHandler"
+
+"userInfo.OperateUserInfoHandler" <|-- "userInfo.operateUserInfoHandler"
+"userInfo.OperateUserInfoService" <|-- "userInfo.operateUserInfoService"
+
+@enduml

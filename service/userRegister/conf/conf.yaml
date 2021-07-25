@@ -1,0 +1,18 @@
+micro:
+  addr: localhost
+  name: userRegister
+  version: 1.0
+mongodb:
+  url: mongodb://47.74.85.143:49161/test
+  pool_size: 20
+  db: user_info
+  collection: user_id
+redis:
+  addr: 47.74.85.143:49162
+  pwd: opsnft_redis
+  db: 0
+  dial_timeout: 10
+  read_timeout: 30
+  write_timeout: 30
+  pool_size: 20
+  pool_timeout: 30

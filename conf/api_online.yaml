@@ -1,0 +1,13 @@
+tls_domain: test.opsnft.net
+log_path: ./log/api
+cert_folder: ./conf/cert
+swagger_doc_url: https://test.opsnft.net:443/swagger/doc.json
+erc20_contract_address: 0xb247BefC358BeDf8E0f305826350cC40184879c5
+total_release_amount: 10000
+owner_address: 0xDfC05ec7a9C15643411A2584438E9D085d4c54eE
+json_prefix: https://ocard.opsnft.net/ocards/
+nft1155: 0x2b7D03324D2c8E89E70C058088Bc08f14AEF8Da3
+port: 443
+ops_point_gift: 2000
+micro:
+  addr: 172.17.0.6

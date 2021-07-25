@@ -1,0 +1,165 @@
+syntax = "proto3";
+
+package PBproperty;
+
+option go_package = "./proto/property;pbProperty";
+
+service OperateProperty {
+  rpc OperateOpsPoint(OpsPoint) returns (OperateResult) {}
+  rpc CheckOpsPoint(OpsPoint) returns (OpsPoint) {}
+  rpc StoreMintOCardInfo(OCard) returns (OperateResult) {}
+  rpc StoreMintOCardsInfo(OCards) returns (OperateResult) {}
+  rpc StoreMintOCardsSuccessInfo(MintOCardsSuccessInfo) returns (OperateResult) {}
+  rpc BuyOCardOnOps(BuyOCardOnOpsReq) returns (OperateResult) {}
+  rpc OperateOCardAmount(OCard) returns (OperateResult) {}
+  rpc StoreOCardFromChain(OCardsOnOps) returns (OperateResult){}
+  rpc QueryMintedOCard(QueryField) returns (ListOCardOnMongo){}
+  rpc QueryOCardFromLocal(QueryField) returns (ListOCardOnOps){}
+  rpc QueryOCardFromChain(QueryField) returns (ListOCardOnOps){}
+  rpc RelationshipJsonIdAndGroupId(JsonIdAndGroupId) returns (OperateResult){}
+  rpc RelationshipJsonIdAndGroupIds(JsonIdAndGroupIds) returns (OperateResult){}
+  //cache withdraw opspoint history
+  rpc StoreWithdrawHistory(WithdrawOpspoint) returns(OperateResult){}
+  //withdraw status handler
+  rpc StoreTransferERC20History(TransferERC20Request) returns(TransferERC20Response){}
+  //check total amount for ocard on ops
+  rpc CheckOCardAmountOps(OCardsOnOps) returns(OCardsOnOps){}
+  //operate ocard amount for each type on ops
+  rpc OperateOCardAmountOps(OCardsOnOps) returns(OperateResult){}
+
+  rpc IncDecOpsPoint(IncDecOpsPointReq) returns (IncDecOpsPointResp) {}
+}
+
+enum OpsIncDec{
+  Non = 0;
+  Inc = 1;
+  Dec = 2;
+}
+message IncDecOpsPointReq{
+  OpsIncDec op = 1;
+  double OpsPoint = 2;
+  string uid = 3;
+}
+
+message IncDecOpsPointResp {
+  double OpsBalance = 1;
+}
+
+message TransferERC20Request{
+  string from_address = 1 ;
+  string to_address = 2;
+  string amount = 3;
+  string transaction_hash=4;
+}
+message TransferERC20Response{
+
+}
+message OpsPoint{
+  string uid = 1;
+  double ops_point = 2 [json_name="ops_point"];
+}
+
+message OperateResult{
+  string code = 1;
+}
+
+message ListOCardOnOps{
+  string code = 1;
+  repeated OCardsOnOps purchase_info = 2 [json_name="purchase_info"];
+}
+//message ListOCard{
+//  string code = 1;
+//  string timestamp = 2;
+//  int64 show_number = 3 [json_name="show_number"];
+//  int64 current_page = 4 [json_name="current_page"];
+//  repeated OCard data = 5;
+//}
+message OCard{
+  string group_id = 1 [json_name="group_id"];
+  string card_type = 2 [json_name="card_type"];
+  string mint_date = 3 [json_name="mint_date"];
+  string uid = 4;
+  bytes amount = 5;
+  string transaction_hash = 6 [json_name="transaction_hash"];
+  string json_id = 7 [json_name="json_id"];
+  bytes sold = 8;
+}
+
+message OCardOnMongo{
+  string group_id = 1 [json_name="group_id"];
+  string card_type = 2 [json_name="card_type"];
+  string mint_date = 3 [json_name="mint_date"];
+  string uid = 4;
+  int64 amount = 5;
+  string transaction_hash = 6 [json_name="transaction_hash"];
+  string json_id = 7 [json_name="json_id"];
+  int64 sold = 8;
+}
+message ListOCardOnMongo{
+  string code = 1;
+  repeated OCardOnMongo data = 2;
+}
+
+message BuyOCardOnOpsReq{
+  repeated OCardsOnOps purchase_info = 1 [json_name="purchase_info"];
+}
+
+message OCardsOnOps{
+  string buyer_uid = 1 [json_name="buyer_uid"];
+  string group_id = 2 [json_name="group_id"];
+  string card_type = 3 [json_name="card_type"];
+  string mint_date = 4 [json_name="mint_date"];
+  string seller_uid = 5 [json_name="seller_uid"];
+  int64 amount = 6;
+  string purchase_time = 7 [json_name="purchase_time"];
+  double unit_price = 8 [json_name="unit_price"];
+}
+
+message OCards{
+  repeated OCard ocard = 1;
+}
+
+
+message QueryField{
+  string uid = 1;
+  string timestamp = 2;
+  int64 show_number = 3 [json_name="show_number"];
+  int64 page_number = 4 [json_name="page_number"];
+}
+
+message MintCard{
+  repeated Info info= 1;
+  string gasfee = 2;
+  string uri = 3;
+  string group_id = 4 [json_name="group_id"];
+}
+
+message Info{
+  string ocard = 1;
+  bytes amount = 2;
+}
+
+message JsonIdAndGroupId{
+  string json_id = 1 [json_name="json_id"];
+  string group_id = 2 [json_name="group_id"];
+}
+
+message JsonIdAndGroupIds{
+  repeated JsonIdAndGroupId jsonIdAndGroupId = 1;
+}
+
+message MintOCardsSuccessInfo{
+  repeated bytes group_ids = 1 [json_name="group_ids"];
+  repeated bytes amounts = 2;
+  string transaction_hash =3 [json_name="transaction_hash"];
+  string from_address = 4;
+  string to_address = 5;
+  string operator_address = 6; //reserved, not used
+}
+
+message WithdrawOpspoint{
+  string transaction_hash = 1 [json_name="transaction_hash"];
+  string uid = 2;
+  double opspoint = 3;
+  double gasfee = 4;
+}

@@ -1,0 +1,112 @@
+version: '3.7'
+
+services:
+  #  api:
+  #    image: zeroone/opsnft:1.0.1
+  #    container_name: api
+  #    ports:  #it doesn't need to export the port on 'host' network_mode
+  #      - "9527:9527"
+  #    volumes:
+  #      - ./log:/opt/ops/log
+  #    restart: "no"
+  #    command: "api -f conf/api.yaml"
+  #    networks:
+  #      - consul_consul
+  #    network_mode: host
+
+  web:
+    image: registry.cn-hongkong.aliyuncs.com/zeroone/opsnft:1.0.1
+    container_name: api
+    restart: "no"
+    network_mode: "bridge"
+    command: "api -f conf/api_online.yaml"
+    volumes:
+      - /root/data/log:/opt/ops/log
+      - /root/data/gin/cert:/opt/ops/conf/cert
+    ports:
+      - "443:443"
+
+  contract:
+    image: registry.cn-hongkong.aliyuncs.com/zeroone/opsnft:1.0.1
+    container_name: contract
+    restart: "no"
+    command: "contract -f conf/contract_online.yaml"
+    volumes:
+      - /root/data/log:/opt/ops/log
+    network_mode: "bridge"
+
+  follower:
+    image: registry.cn-hongkong.aliyuncs.com/zeroone/opsnft:1.0.1
+    container_name: follower
+    restart: "no"
+    network_mode: "bridge"
+    command: "follower -f conf/follower_online.yaml"
+    volumes:
+      - /root/data/log:/opt/ops/log
+  #
+  message:
+    image: registry.cn-hongkong.aliyuncs.com/zeroone/opsnft:1.0.1
+    container_name: message
+    restart: "no"
+    network_mode: "bridge"
+    command: "message -f conf/message_online.yaml"
+    volumes:
+      - /root/data/log:/opt/ops/log
+  #
+  oop:
+    image: registry.cn-hongkong.aliyuncs.com/zeroone/opsnft:1.0.1
+    container_name: oop
+    restart: "no"
+    network_mode: "bridge"
+    command: "oop -f conf/oop_online.yaml"
+    volumes:
+      - /root/data/log:/opt/ops/log
+  #
+  property:
+    image: registry.cn-hongkong.aliyuncs.com/zeroone/opsnft:1.0.1
+    container_name: property
+    restart: "no"
+    network_mode: "bridge"
+    command: "property -f conf/property_online.yaml"
+    volumes:
+      - /root/data/log:/opt/ops/log
+  #
+  report:
+    image: registry.cn-hongkong.aliyuncs.com/zeroone/opsnft:1.0.1
+    container_name: report
+    restart: "no"
+    network_mode: "bridge"
+    command: "report -f conf/report_online.yaml"
+    volumes:
+      - /root/data/log:/opt/ops/log
+  #
+  search:
+    image: registry.cn-hongkong.aliyuncs.com/zeroone/opsnft:1.0.1
+    container_name: search
+    restart: "no"
+    network_mode: "bridge"
+    command: "search -f conf/search_online.yaml"
+    volumes:
+      - /root/data/log:/opt/ops/log
+  #
+  userInfo:
+    image: registry.cn-hongkong.aliyuncs.com/zeroone/opsnft:1.0.1
+    container_name: userInfo
+    restart: "no"
+    network_mode: "bridge"
+    command: "userInfo -f conf/userInfo_online.yaml"
+    volumes:
+      - /root/data/log:/opt/ops/log
+
+  userRegister:
+    image: registry.cn-hongkong.aliyuncs.com/zeroone/opsnft:1.0.1
+    container_name: userRegister
+    restart: "no"
+    network_mode: "bridge"
+    command: "userRegister -f conf/userRegister_online.yaml"
+    volumes:
+      - /root/data/log:/opt/ops/log
+
+#networks:
+#  consul_consul:
+#    external: true

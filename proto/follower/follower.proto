@@ -1,0 +1,74 @@
+syntax = "proto3";
+
+package follower;
+option go_package = "./proto/follower;pbFollower";
+
+service OperateFollow {
+  rpc Follow(Follower) returns (FollowNum) {}
+  rpc CanalFollow(Follower) returns (FollowNum) {}
+  rpc QueryFollowListAll(OopFollowListReq) returns (OopFollowListResp) {}
+  rpc QueryFollowingList(FollowListReq) returns (FollowListResp) {}
+  rpc QueryFollowedList(FollowListReq) returns (FollowListResp) {}
+  rpc WhoFollowingMe(RelationReq) returns (RelationResp) {}
+  rpc WhoFollowedMe(RelationReq) returns (RelationResp) {}
+}
+
+message Follower{
+  string uid = 1;
+  string following = 2 [json_name = "following"];
+}
+
+message QFollowNum{
+  string uid = 1;
+}
+
+message FollowNum{
+  string uid = 1;
+  string following = 2 [json_name = "following"];
+  string followed = 3 [json_name = "followed"];
+}
+
+message OopFollowListReq{
+  string uid = 1;
+  string timestamp = 2;
+}
+
+message OopFollowListResp{
+  string code =1;
+  repeated string uid = 2;
+}
+
+message Oop {
+  string oid = 1;
+  string uid = 2;
+  string content = 3;
+  string create_time = 4 [json_name="create_time"];
+  int32 shard_times = 5 [json_name="shard_times"];
+  int32 comment_times = 6 [json_name="comment_times"];
+  int32 like_times = 7 [json_name="like_times"];
+}
+
+message FollowListReq{
+  string uid = 1;
+  string timestamp = 2;
+  int64 show_number = 3 [json_name="show_number"];
+  int64 page_number = 4 [json_name="page_number"];
+}
+
+
+message FollowListResp{
+  string code = 1;
+  repeated string uid = 2;
+}
+
+message RelationReq{
+  string uid = 1;
+  repeated string relationship = 2;
+}
+
+message RelationResp{
+  string code =1;
+  repeated string uid =2;
+}
+
+

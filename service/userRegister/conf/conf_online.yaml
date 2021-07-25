@@ -1,0 +1,18 @@
+micro:
+  addr: 172.17.0.6
+  name: userRegister
+  version: 1.0
+mongodb:
+  url: mongodb://172.17.0.4:27017
+  pool_size: 20
+  db: user_info
+  collection: user_id
+redis:
+  addr: 172.17.0.5:6379
+  pwd: opsnft_redis
+  db: 0
+  dial_timeout: 10
+  read_timeout: 30
+  write_timeout: 30
+  pool_size: 20
+  pool_timeout: 30

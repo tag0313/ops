@@ -1,0 +1,247 @@
+syntax = "proto3";
+
+package nft1155;
+
+option go_package = "./proto/nft1155;pbNft1155";
+
+service NFT1155{
+    //reading methods
+    rpc Name(NameRequest) returns (NameResponse);
+    rpc Symbol(SymbolRequest) returns (SymbolResponse);
+    rpc Owner(OwnerRequest) returns (OwnerResponse);
+    rpc TokenSupply(TokenSupplyRequest)returns (TokenSupplyResponse);
+
+    rpc Uri(UriRequest) returns (UriResponse);
+    rpc BalanceOf(BalanceOfRequest) returns (BalanceOfResponse);
+    rpc BalanceOfBatch(BalanceOfBatchRequest)returns (BalanceOfBatchResponse);
+    rpc GetNextTokenID(GetNextTokenIDRequest)  returns (GetNextTokenIDResponse);
+    rpc IsApprovedForAll(IsApprovedForAllRequest) returns (IsApprovedForAllResponse);
+
+    //Writing methods
+    rpc SafeTransferFrom(SafeTransferFromRequest)returns(WritingMethodResponse);
+    rpc SafeBatchTransferFrom(SafeBatchTransferFromRequest)returns(WritingMethodResponse);
+    rpc SetApprovalForAll(SetApprovalForAllRequest)returns(WritingMethodResponse);
+
+
+    //Governance methods
+    // 重置NFT url统一前缀
+    rpc SetBaseMetadataURI(SetBaseMetadataURIRequest)returns(WritingMethodResponse);
+    // 创建一类新资产
+    rpc Create(CreateRequest)returns(WritingMethodResponse);
+    //批量创建新资产
+    rpc CreateBatch(CreateBatchRequest)returns(WritingMethodResponse);
+    // 转移管理者权限到newGovernor地址
+    rpc TransferGovernorship(TransferGovernorshipRequest)returns(WritingMethodResponse);
+    //资产类别为_id(资产类别需要事先创建) 增发_quantity数量给_to
+    rpc Mint(MintRequest)returns(WritingMethodResponse);
+    //资产类别为_id(资产类别需要事先创建) 批量增发_quantity数量给_to
+    rpc MintBatch(MintBatchRequest)returns(WritingMethodResponse);
+    // 将增发资产类别为_id数组的权限转移给_to
+    rpc SetCreator(SetCreatorRequest)returns(WritingMethodResponse);
+
+    // 设置_id资产类型的url
+    rpc SetIdURI(SetIdURIRequest)returns(WritingMethodResponse);
+    //批量设置_id资产类型的url
+    rpc SetIdURIs(SetIdURIsRequest)returns(WritingMethodResponse);
+
+
+    //holder
+    rpc TransferBatchID(TransferBatchIDReq)returns(WritingMethodResponse);
+    rpc TransferERC20(TransferERC20Request)returns(WritingMethodResponse);
+
+    rpc GetCreateBatchPrice(CreateBatchRequest) returns (GasFeeResponse);
+    rpc GetTransferBatchIDPrice(TransferBatchIDReq)returns(GasFeeResponse);
+    rpc GetTransferERC20Price(TransferERC20Request)returns(GasFeeResponse);
+
+    rpc GetTransactionByHash(GetTransactionByHashReq)returns(GetTransactionByHashResponse);
+}
+
+message IdAmount{
+    bytes id = 1;
+    bytes amount = 2;
+}
+message GetTransactionByHashReq{
+    string transactionHash = 1;
+}
+message GetTransactionByHashResponse{
+    uint32   type      =1;
+    uint64   nonce     =2;
+    bytes   gasPrice  =3;
+    uint64   gas       =4;
+    bytes   ethValue     =5;
+    string   ethTo        =10;
+    string   hash      =11;
+    bool isPending =12;
+    uint32 status = 13;
+
+    string contractFrom = 14;
+    string contractAddress = 15;
+    string contractTo = 17;
+    bytes data = 20;
+    repeated IdAmount idAndAmount=21;
+}
+
+message TransferERC20Request{
+    string tokenContract = 1;
+    string addressTo = 2;
+    string amount = 3;
+}
+
+message GasFeeResponse{
+    bytes gasPrice = 1;
+    uint64 gasLimit = 2;
+}
+
+message NameRequest{
+
+}
+message NameResponse{
+    string name = 1;;
+}
+
+message SymbolRequest{
+}
+message SymbolResponse{
+  string symbol = 1;
+}
+
+message OwnerRequest{
+}
+message OwnerResponse{
+  string ownerAddress = 1;
+}
+
+message UriRequest{
+  bytes id=1; //uint256
+}
+message UriResponse{
+  string uri = 1;
+}
+message TokenSupplyRequest{
+    bytes id=1; //uint256
+}
+message TokenSupplyResponse{
+    bytes amount =1; //uint256
+}
+message BalanceOfRequest{
+    string ownerAddress=1;
+    bytes id=2;   //uint256
+}
+message BalanceOfResponse{
+    bytes balance = 1;
+    uint32 decimals = 2;
+    string ownerAddress=3;
+}
+message BalanceOfBatchRequest{
+    repeated BalanceOfRequest owners = 1;
+}
+message BalanceOfBatchResponse{
+    repeated BalanceOfResponse balances = 1; //uint256
+}
+message GetNextTokenIDRequest{
+    repeated bytes amounts=1;
+}
+message GetNextTokenIDResponse{
+    bytes id = 1; //uint256
+}
+message IsApprovedForAllRequest{
+    string ownerAddress = 1;
+    string operatorAddress = 2;
+}
+message IsApprovedForAllResponse{
+    bool isOperator = 1;
+}
+message SafeTransferFromRequest{
+    string fromAddress = 1;
+    string toAddress = 2;
+    bytes id = 3; //uint256
+    bytes amount = 4; //uint256
+    bytes data = 5;
+}
+
+message SafeBatchTransferFromRequest{
+    string fromAddress = 1;
+    string toAddress = 2;
+    repeated bytes ids = 3; //uint256
+    repeated bytes amounts = 4; //uint256
+    bytes data = 5;
+}
+
+message SetApprovalForAllRequest{
+    string operatorAddress = 1;
+    bool approved = 2;
+}
+
+//Governance methods
+// 重置NFT url统一前缀
+message SetBaseMetadataURIRequest{
+    string baseMetadataURI = 1;
+}
+
+// 创建一类新资产
+message CreateRequest{
+    string initOwnerAddress = 1;
+    bytes initSupply = 2; //uint256
+    string  uri = 3;
+    bytes   data = 4;
+}
+
+message CreateBatchRequest{
+    string initOwnerAddress = 1;
+    repeated bytes quantities = 2; //uint256
+    repeated string uris = 3;
+    bytes  data = 4;
+}
+
+
+// 转移管理者权限到newGovernor地址
+message TransferGovernorshipRequest{
+    string newGovernorAddress = 1;
+}
+
+//资产类别为_id(资产类别需要事先创建) 增发_quantity数量给_to
+message MintRequest{
+    string addressTo = 1;
+    bytes id = 2; //uint256
+    bytes quantity = 3;//uint 256
+    bytes data = 4;
+}
+
+//资产类别为_id(资产类别需要事先创建) 批量增发_quantity数量给_to
+message MintBatchRequest{
+    string addressTo = 1;
+    repeated bytes ids = 2; //uint256
+    repeated bytes quantities = 3;//uint 256
+    bytes data = 4;
+
+}
+
+// 将增发资产类别为_id数组的权限转移给_to
+message SetCreatorRequest{
+    string addressTo = 1;
+    repeated bytes ids = 2;
+}
+
+message SetIdURIRequest{
+    bytes id = 1; //uint256
+    string uri = 2;
+}
+
+//批量设置_id资产类型的url
+message SetIdURIsRequest{
+    repeated bytes ids =1;
+    repeated string uris = 2;
+}
+
+message WritingMethodResponse{
+    string method = 1;
+    string transactionHash = 2;
+    uint64 state = 3;
+}
+
+message TransferBatchIDReq{
+    string nftContractAddr = 1;
+    string toAddress = 2;
+    repeated bytes ids = 3;
+    repeated bytes quantities = 4;
+}

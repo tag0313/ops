@@ -1,0 +1,100 @@
+version: '3.7'
+
+services:
+#  api:
+#    image: zeroone/opsnft:1.0.1
+#    container_name: api
+#    ports:  #it doesn't need to export the port on 'host' network_mode
+#      - "9527:9527"
+#    volumes:
+#      - ./log:/opt/ops/log
+#    restart: "no"
+#    command: "api -f conf/api.yaml"
+#    networks:
+#      - consul_consul
+  #    network_mode: host
+
+  contract:
+    image: zeroone/opsnft:1.0.1
+    container_name: contract
+    restart: "no"
+    command: "contract -f conf/contract.yaml"
+    volumes:
+      - ../log:/opt/ops/log
+    network_mode: host
+
+  follower:
+    image: zeroone/opsnft:1.0.1
+    container_name: follower
+    restart: "no"
+    network_mode: "host"
+    command: "follower -f conf/follower.yaml"
+    volumes:
+      - ../log:/opt/ops/log
+#
+  message:
+    image: zeroone/opsnft:1.0.1
+    container_name: message
+    restart: "no"
+    network_mode: "host"
+    command: "message -f conf/message.yaml"
+    volumes:
+      - ../log:/opt/ops/log
+#
+  oop:
+    image: zeroone/opsnft:1.0.1
+    container_name: oop
+    restart: "no"
+    network_mode: "host"
+    command: "oop -f conf/oop.yaml"
+    volumes:
+      - ../log:/opt/ops/log
+#
+  property:
+    image: zeroone/opsnft:1.0.1
+    container_name: property
+    restart: "no"
+    network_mode: "host"
+    command: "property -f conf/property.yaml"
+    volumes:
+      - ../log:/opt/ops/log
+#
+  report:
+    image: zeroone/opsnft:1.0.1
+    container_name: report
+    restart: "no"
+    network_mode: "host"
+    command: "report -f conf/report.yaml"
+    volumes:
+      - ../log:/opt/ops/log
+#
+  search:
+    image: zeroone/opsnft:1.0.1
+    container_name: search
+    restart: "no"
+    network_mode: "host"
+    command: "search -f conf/search.yaml"
+    volumes:
+      - ../log:/opt/ops/log
+#
+  userInfo:
+    image: zeroone/opsnft:1.0.1
+    container_name: userInfo
+    restart: "no"
+    network_mode: "host"
+    command: "userInfo -f conf/userInfo.yaml"
+    volumes:
+      - ../log:/opt/ops/log
+
+  userRegister:
+    image: zeroone/opsnft:1.0.1
+    container_name: userRegister
+    restart: "no"
+    network_mode: "host"
+    command: "userRegister -f conf/userRegister.yaml"
+    volumes:
+      - ../log:/opt/ops/log
+
+#networks:
+#  consul_consul:
+#    external: true

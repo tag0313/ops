@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package report;
+
+option go_package = "./proto/report;pbReport";
+
+service OperateReport {
+    rpc ReportOop(ReportOopInfo) returns (ReportResult) {}
+    rpc ReportUser(ReportUserInfo) returns (ReportResult) {}
+    rpc GetUserReportTimes(UserID) returns (UserReportedTimes) {}
+}
+
+message ReportOopInfo {
+    string oid = 1;
+    string uid = 2;
+    string reporting = 3;
+    string ReportReason = 4 [json_name="report_reason"]; 
+}
+
+message ReportUserInfo {
+    string uid = 1;
+    string reporting = 2;
+    string ReportReason = 3 [json_name="report_reason"];
+}
+
+message UserID {
+    string uid = 1;
+}
+
+message ReportResult {
+    string code = 1;
+}
+
+message UserReportedTimes {
+    int64 times = 1;
+}
+  

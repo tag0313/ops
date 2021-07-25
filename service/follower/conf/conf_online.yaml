@@ -1,0 +1,28 @@
+micro:
+  addr: 172.17.0.6
+  name: follower
+  version: 1.0
+mongodb:
+  url: mongodb://172.17.0.4:27017
+  pool_size: 20
+  db:
+    user_info: user_info
+    ops: ops
+  collection:
+    following : following
+    user_detail: user_detail
+    oop: oop
+redis:
+  addr: 172.17.0.5:6379
+  pwd: opsnft_redis
+  db: 0
+  dial_timeout: 10
+  read_timeout: 30
+  write_timeout: 30
+  pool_size: 20
+  pool_timeout: 30
+azure:
+  storage:
+    account: opsnft
+    key: LLfU9KKucvdoQBZkno4/H+8dmwK1QLNlo9b/fIyzoIgtkTC3yOFWWlxeQe/uXWcfJkk80w2+hn1xLQs7uWaxwQ==
+  container: oopResp-user-info-img

@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package swap;
+
+option go_package = "./proto/swap;pbSwap";
+
+
+service Swap{
+    rpc OPS2USDT(MoneyRequest) returns (MoneyResponse);
+    rpc ETH2USDT(MoneyRequest) returns (MoneyResponse);
+//    rpc OPS2ETH(OPS2ETHRequest) returns (OPS2ETHResponse);
+    rpc ETH2OPS(MoneyRequest) returns (MoneyResponse);
+}
+
+message MoneyRequest{
+  string money =1; //big.Float
+
+}
+message MoneyResponse{
+  string money =1; //bit.Float
+}

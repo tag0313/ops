@@ -1,0 +1,115 @@
+syntax = "proto3";
+
+package oop;
+
+option go_package = "./proto/oop;oop";
+
+service OperateOop {
+  rpc StoreOop(Oop) returns (OneResult) {}
+  rpc UpdateOop(Oop) returns (OneResult) {}
+  rpc DeleteOop(Delete) returns (DeleteResult) {}
+  rpc QueryOwnerOop(Query) returns (ManyResult) {}
+  rpc QueryOtherOop(Query) returns (ManyResult) {}
+  rpc SquareOop(Query) returns (ManyResult) {}
+  rpc QueryFollowOop(FollowOop) returns (ManyResult) {}
+  rpc LikeOop(Like) returns (LikeOopResult) {}
+  rpc MyLikeOop(MyLike) returns (MyLikeOopResult) {}
+  rpc CancelLikeOop(CancelLike) returns (CancelLikeResult) {}
+}
+
+//when insert or update one ops, this struct will return the result and the ops which is be inserted
+message OneResult{
+  string code = 1;
+  Oop data = 4;
+}
+
+message Oop {
+  string oid = 1;
+  string uid = 2;
+  string content = 3;
+  string create_time = 4 [json_name="create_time"];
+  int32 shard_times = 5 [json_name="shard_times"];
+  int32 comment_times = 6 [json_name="comment_times"];
+  int32 like_times = 7 [json_name="like_times"];
+  bool is_private = 8 [json_name="is_private"];
+  repeated LikeDetail like_detail = 9 [json_name="like_detail"];
+  LikeDetail my_like_info = 10 [json_name="my_like_info"];
+  string at_users = 11 [json_name="at_users"];
+}
+
+message DeleteResult {
+  string code = 1;
+}
+
+message Delete {
+  string oid = 1;
+  string uid = 2;
+}
+
+//this struct will return all of the oop of single user
+message ManyResult{
+  string code = 1;
+  int64 show_number = 2 [json_name="show_number"];
+  int64 current_page = 3 [json_name="current_page"];
+  string timestamp = 4;
+  repeated Oop data = 5;
+}
+
+message Query {
+  string uid = 1;
+  string timestamp = 2;
+  int64 show_number = 3 [json_name="show_number"];
+  int64 page_number = 4 [json_name="page_number"];
+  string self_uid = 5 [json_name="self_uid"];
+}
+
+message FollowOop {
+  repeated string uid = 1;
+  string timestamp = 2;
+  int64 show_number = 3 [json_name="show_number"];
+  int64 page_number = 4 [json_name="page_number"];
+  string self_uid = 5 [json_name="self_uid"];
+}
+
+message Like {
+  string uid = 1;
+  string oid = 2;
+  int64 star = 3;
+  string create_time = 4 [json_name="create_time"];
+}
+
+message LikeOopResult {
+  string code = 1;
+}
+
+message CancelLike{
+  string uid = 1;
+  string oid = 2;
+}
+
+message CancelLikeResult {
+  string code = 1;
+}
+
+message MyLike{
+  string uid = 1;
+  int64 show_number = 2 [json_name="show_number"];
+  int64 page_number = 3 [json_name="page_number"];
+}
+
+message MyLikeOopResult{
+  string code = 1;
+  int64 show_number = 2 [json_name="show_number"];
+  int64 current_page = 3 [json_name="current_page"];
+  repeated Oop data = 4;
+}
+
+message LikeDetail{
+  int64 star = 1;
+  int64 count = 2;
+}
+
+
+
+
+

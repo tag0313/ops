@@ -1,0 +1,28 @@
+micro:
+  addr: localhost
+  name: search
+  version: 1.0
+mongodb:
+  url: mongodb://test.opsnft.net:49161
+  pool_size: 20
+  db:
+    user_info: user_info
+    ops: ops
+  collection:
+    following : following
+    user_detail: user_detail
+    oop: oop
+redis:
+  addr: test.opsnft.net:49162
+  pwd: opsnft_redis
+  db: 0
+  dial_timeout: 10
+  read_timeout: 30
+  write_timeout: 30
+  pool_size: 20
+  pool_timeout: 30
+azure:
+  storage:
+    account: opsnft
+    key: LLfU9KKucvdoQBZkno4/H+8dmwK1QLNlo9b/fIyzoIgtkTC3yOFWWlxeQe/uXWcfJkk80w2+hn1xLQs7uWaxwQ==
+  container: oopResp-user-info-img

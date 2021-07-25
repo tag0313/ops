@@ -1,0 +1,90 @@
+syntax = "proto3";
+
+package userInfo;
+
+option go_package = "./proto/userInfo;pbUserInfo";
+
+service OperateUserInfo {
+  rpc StoreUserInfo(UserInfo) returns (OperateResult) {}
+  rpc UpdateUserInfo(UserInfo) returns (UserInfo) {}
+  rpc DeleteUserInfo(QueryAndDelete) returns (OperateResult) {}
+  rpc QueryUserInfo(QueryAndDelete) returns (UserInfo) {}
+  rpc IsRepeatedOpsAccount(CheckOpsAccount) returns (OperateResult){}
+  rpc OneStepProtect(SetPrivate) returns (OperateResult){}
+  rpc ModifyOopNum(OopNum) returns (OperateResult){}
+  rpc SetPrice(Price) returns (Price){}
+  rpc SetTotalReleaseOCardNum(TotalReleaseOCardNum) returns(OperateResult){}
+  rpc GetUidByOpsAccount(OpsAccounts) returns(OpsAccounts){}
+  rpc GetPbkAddrByUid(UidAndPbkaddr) returns(UidAndPbkaddr){}
+}
+
+message UserInfo {
+  string uid = 1;
+  string ops_account = 2 [json_name="ops_account"];
+  string nick_name = 3 [json_name="nick_name"];
+  string description = 4;
+  string link = 5;
+  string register_time = 6 [json_name="register_time"];
+  string profile = 7;
+  string banner = 8;
+  string old_profile_link = 9 [json_name="old_profile_link"];
+  string old_banner_link = 10 [json_name="old_banner_link"];
+  string location = 11;
+  bool is_official_user = 12[json_name="is_official_user"];
+  string label = 13;
+  bool is_private = 14 [json_name="is_private"];
+  int64 oop_number = 15 [json_name="oop_number"];
+  int64 total_amount = 16 [json_name="total_amount"];
+  double price = 17;
+  int64 following = 18;
+  int64 followed = 19;
+
+}
+
+message SetPrivate{
+  string uid = 1;
+  bool is_private = 2 [json_name='is_private'];
+}
+
+message OperateResult {
+  string code = 1;
+}
+
+message QueryAndDelete {
+  string uid = 1;
+}
+
+message CheckOpsAccount {
+  string ops_account = 1 [json_name="ops_account"];
+}
+
+message OopNum {
+  string uid = 1;
+  int64  num = 2;
+}
+
+message Price{
+  string uid =1;
+  double price =2;
+}
+
+message TotalReleaseOCardNum{
+  string uid =1;
+  int64 release_card_num=2 [json_name="release_card_num"];
+}
+
+message OpsAccounts{
+  repeated string ops_accounts = 1 [json_name="ops_accounts"];
+  repeated OpsAccountsAndUids opsAndUid = 2;
+}
+
+message OpsAccountsAndUids{
+  string ops_account = 1 [json_name="ops_account"];
+  string uid = 2 [json_name="uid"];
+}
+
+message UidAndPbkaddr{
+  string uid = 1 [json_name="uid"];
+  string pubkaddr = 2 [json_name="pubkaddr"];
+  string err_code = 3 [json_name="err_code"];
+}

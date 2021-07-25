@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package ethereum;
+
+option go_package = "./proto/ethereum;pbEthereum";
+
+service Ethereum{
+	//reading methods
+	rpc BalanceETH(ETHBalanceRequest)returns(ETHBalanceResponse);
+}
+
+
+message ETHBalanceRequest{
+	string address = 1;
+}
+
+message ETHBalanceResponse{
+	bytes balance = 1;
+	uint32 decimals = 2;
+	string address = 3;
+}

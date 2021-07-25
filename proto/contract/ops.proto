@@ -1,0 +1,201 @@
+syntax = "proto3";
+
+package contract;
+
+option go_package = "./proto/contract;pbContract";
+
+service Contract{
+    //reading methods
+    rpc BalanceOf(BalanceRequest)returns(BalanceResponse);
+    rpc TotalSupply(TotalSupplyRequest)returns(TotalSupplyResponse);
+    rpc Owner(OwnerRequest)returns(OwnerResponse);
+    rpc Decimals(DecimalsRequest)returns(DecimalsResponse);
+    rpc Name(NameRequest)returns(NameResponse);
+    rpc Symbol(SymbolRequest)returns(SymbolResponse);
+    rpc GetGasFee(GetGasFeeRequest)returns(GetGasFeeResponse);
+    rpc GetTransactionByHash(GetTransactionByHashRequest)returns(GetTransactionByHashResponse);
+
+    //writing methods
+    rpc Transfer(TransferRequest)returns(TransferResponse);
+    rpc Approve(ApproveRequest)returns(ApproveResponse);
+    rpc TransferFrom(TransferFromRequest)returns(TransferFromResponse);
+    rpc TestError(Empty)returns(Empty);
+
+    rpc DonateCoin(DonateCoinRequest)returns(DonateCoinResponse);
+}
+
+message DonateCoinRequest{
+  string userWalletAddress = 1;
+
+}
+message DonateCoin{
+  string coinType=1;
+  string coinAmount=2;
+  string transactionHash=3;
+}
+message DonateCoinResponse{
+  repeated DonateCoin coins = 1;
+}
+
+message Empty{
+}
+
+message GetTransactionByHashRequest{
+    string transactionHash = 1;
+}
+
+message GetTransactionByHashResponse{
+  uint32   type      =1;
+  uint64   nonce     =2;
+  bytes   gasPrice  =3;
+  uint64   gas       =4;
+  bytes   ethValue     =5;
+  string   to        =10;
+  string   hash      =11;
+  bool isPending =12;
+  uint32 status = 13;
+  string contractFrom = 14;
+  string contractAddress = 15;
+  string contractAmount = 16;
+  string contractTo = 17;
+}
+message GetGasFeeRequest{
+    string fromAddress = 1;
+    string toAddress = 2;
+    bytes amount = 3;
+    bytes decimals = 4;
+}
+message GetGasFeeResponse{
+    bytes gasPrice = 1;
+    uint64 gasLimit = 2;
+}
+
+message BalanceRequest{
+    string address = 1;
+}
+
+message BalanceResponse{
+    bytes balance = 1;
+    uint32 decimals = 2;
+    string address = 3;
+    string balanceStr = 4;
+}
+
+message TotalSupplyResponse{
+    string totalSupply = 1;
+}
+message TotalSupplyRequest{
+    //null
+}
+
+message OwnerRequest{
+    //null
+}
+message OwnerResponse{
+    string address = 1;
+}
+
+message NameRequest{
+    //null
+}
+message NameResponse{
+    string name = 1;
+}
+
+message DecimalsRequest{
+    //null
+}
+
+message DecimalsResponse{
+    uint32 decimals = 1;
+}
+message SymbolRequest{
+    //null
+}
+message SymbolResponse{
+    string symbol = 1;
+}
+
+message TransferRequest{
+    string addressTo = 1;
+}
+message TransferResponse{
+    string addressTo = 1;
+}
+
+message ApproveRequest{
+    string addressSpender = 1;
+}
+
+message ApproveResponse{
+    string addressSpender = 1;
+}
+
+message TransferFromRequest{
+    string addressSender = 1;
+    string addressRecipient = 2;
+}
+
+message TransferFromResponse{
+    string addressSender = 1;
+    string addressRecipient = 2;
+}
+
+
+service lp{
+  rpc GetOpsUsdtApy(GetOpsUsdtApyRequest)returns(GetApyResponse);
+  rpc GetOpsFluxAPY(GetOpsFluxApyRequest)returns(GetApyResponse);
+  rpc GetEthUsdtApy(GetEthUsdtApyRequest)returns(GetApyResponse);
+
+  rpc GetOpsPriceUsdt(GetOpsPriceRequest)returns(WorthResponse);
+  rpc GetOpsPriceFlux(GetOpsPriceRequest)returns(WorthResponse);
+
+  rpc GetPoolWorth(GetPoolWorthRequest)returns(WorthResponse);
+
+  rpc GetUserLpBalance(UserLpRequest)returns(BalanceResponse);
+  rpc GetUserLpAmount(UserLpRequest)returns(LpAmountResponse);
+  rpc GetOpsReward(UserLpRequest)returns(GetOpsRewardsResponse);
+}
+
+message UserLpRequest{
+  LpType lpType = 1;
+  string accountAddress = 2;
+}
+
+message LpAmountResponse{
+  string amount = 1;
+}
+
+message GetOpsRewardsResponse{
+  string rewards = 1;
+}
+
+enum LpType{
+  OpsUSDT = 0;
+  OpsFlux = 1;
+}
+
+message GetPoolWorthRequest{
+  LpType lpType = 1;
+}
+
+message GetOpsPriceRequest{
+
+}
+message GetOpsUsdtApyRequest{
+
+}
+message GetEthUsdtApyRequest{
+
+}
+message GetOpsFluxApyRequest{
+
+}
+
+message GetApyResponse{
+  string capitalization = 1;
+}
+
+message WorthResponse{
+  string Wroth = 1;
+}

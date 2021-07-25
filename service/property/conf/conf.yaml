@@ -1,0 +1,36 @@
+micro:
+  addr: localhost
+  name: property
+  version: 1.0
+mongodb:
+  url: mongodb://test.opsnft.net:49161
+  pool_size: 20
+  db:
+    property: property
+    user_info: user_info
+  collection:
+    minted_ocard: minted_ocard
+    buyer_info_ops: buyer_info_ops
+    user_opspoint: user_opspoint
+    buyer_info_chain: buyer_info_chain
+    transfer_erc20_history: transfer_erc20_history
+    withdraw_opspoint_history: withdraw_opspoint_history
+    withdraw_ocard_history: withdraw_ocard_history
+    user_id: user_id
+redis:
+  addr: test.opsnft.net:49162
+  pwd: opsnft_redis
+  db: 0
+  dial_timeout: 10
+  read_timeout: 30
+  write_timeout: 30
+  pool_size: 20
+  pool_timeout: 30
+azure:
+  storage:
+    account: opsnft
+    key: LLfU9KKucvdoQBZkno4/H+8dmwK1QLNlo9b/fIyzoIgtkTC3yOFWWlxeQe/uXWcfJkk80w2+hn1xLQs7uWaxwQ==
+  container: ops-user-info-img
+json_prefix: https://ocard.opsnft.net/ocards/
+contract_addr:
+  holder: 0xDfC05ec7a9C15643411A2584438E9D085d4c54eE

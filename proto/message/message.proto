@@ -1,0 +1,124 @@
+syntax = "proto3";
+
+package message;
+
+option go_package = "./proto/message;pbMessage";
+
+service OperateMessage {
+    rpc PutOne(Msg) returns (Result) {}
+    rpc PutBatch(Msgs) returns (Result) {}
+    rpc Get(Num) returns (Msgs) {}
+    rpc GetAll(UserID) returns (Msgs) {}
+}
+
+message UserID {
+    string uid = 1;
+}
+
+message Num {
+    int64 num = 1;
+    string uid = 2;
+}
+
+// 交易 1
+message Txn {
+    int64 msg_type = 1 [json_name="msg_type"]; 
+    string txn_hash = 2 [json_name="txn_hash"];
+    string txn_status = 3 [json_name="txn_status"];
+    double amount = 4;
+    string timestamp = 5 [json_name="timestamp"];
+    string from_address = 6 [json_name="from_address"];
+    string to_address = 7 [json_name="to_address"];
+}
+
+// 关注 2
+message Follow {
+    int64 msg_type = 1 [json_name="msg_type"]; 
+    string uid = 2 [json_name="value"];
+    string timestamp = 3 [json_name="timestamp"];
+}
+
+// 点赞 3
+message Like {
+    int64 msg_type = 1 [json_name="msg_type"]; 
+    string oid = 2 [json_name="oid"];
+    string uid = 3 [json_name="uid"];
+    int64 like_num = 4 [json_name="like_num"];
+    string timestamp = 5 [json_name="timestamp"];
+    string content = 6 [json_name="content"];
+}
+
+// 转发 4
+message Foword {
+    int64 msg_type = 1 [json_name="msg_type"]; 
+    string uid = 2 [json_name="uid"];
+    string oid = 3 [json_name="oid"];
+    string timestamp = 4 [json_name="timestamp"];
+}
+
+// 评论 5
+message Comment {
+    int64 msg_type = 1 [json_name="msg_type"]; 
+    string uid = 2 [json_name="uid"];
+    string oid = 3 [json_name="oid"];
+    string content = 4 [json_name="content"];
+    string content_oid = 5 [json_name="content_oid"];
+    string timestamp = 6 [json_name="timestamp"];
+}
+
+// 私信 6
+message PrivateMessage {
+    int64 msg_type = 1 [json_name="msg_type"]; 
+    string uid = 2 [json_name="uid"];
+    string content = 3 [json_name="content"];
+    string timestamp = 4 [json_name="timestamp"];
+}
+
+// OCard数量不足 7
+message OcardNotEnough {
+    int64 msg_type = 1 [json_name="msg_type"]; 
+    string timestamp = 2 [json_name="timestamp"];
+}
+
+// 卡相关 8
+message CreateCard {
+    int64 msg_type = 1 [json_name="msg_type"]; 
+    string txn_hash = 2 [json_name="txn_hash"];
+    string txn_status = 3 [json_name="txn_status"];
+    int64 amount = 4;
+    string timestamp = 5 [json_name="timestamp"];
+}
+
+// mentioned相关 9
+message Mention {
+    int64 msg_type = 1 [json_name="msg_type"];
+    string mentioning = 2 [json_name="mentioning"];
+    string timestamp = 3 [json_name="timestamp"];
+    string uid = 4 [json_name="uid"];
+    string oid = 5 [json_name="oid"];
+    string content = 6 [json_name="content"];
+    string at_users = 7 [json_name="at_users"];
+}
+
+// 消息主体
+message Msg {
+    int64 msg_type = 1 [json_name="msg_type"]; 
+    string uid = 2 [json_name="uid"];
+    Txn txn = 3 [json_name="txn"];
+    Follow follow = 4 [json_name="follow"];
+    Like like = 5 [json_name="like"];
+    Foword foword = 6 [json_name="foword"];
+    Comment comment = 7 [json_name="comment"];
+    PrivateMessage private_message = 8 [json_name="private_message"];
+    OcardNotEnough ocard_not_enough = 9 [json_name="ocard_not_enough"];
+    CreateCard create_card = 10 [json_name="create_card"];
+    Mention Mention = 11 [json_name="mention"];
+}
+
+message Msgs {
+    repeated Msg data = 2;
+}
+
+message Result {
+    string code = 1;
+}

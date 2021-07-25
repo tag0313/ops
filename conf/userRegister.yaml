@@ -1,0 +1,19 @@
+log_path: ./log/userRegister
+micro:
+  addr: localhost
+  name: userRegister
+  version: 1.0
+mongodb:
+  url: mongodb://test.opsnft.net:49161
+  pool_size: 20
+  db: user_info
+  collection: user_id
+redis:
+  addr: test.opsnft.net:49162
+  pwd: opsnft_redis
+  db: 0
+  dial_timeout: 11
+  read_timeout: 30
+  write_timeout: 30
+  pool_size: 20
+  pool_timeout: 30
