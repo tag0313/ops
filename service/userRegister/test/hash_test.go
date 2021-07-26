@@ -21,7 +21,7 @@ func TestHash(t *testing.T) {
 
 		//isVerify := verifyLogin(pbk, message, sign)
 
-		//fmt.Println(isVerify)
+		fmt.Println(isVerify)
 	})
 }
 
