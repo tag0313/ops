@@ -35,9 +35,9 @@ func TestToken(t *testing.T) {
 			Pubkaddr: "0x4b430a57bd51e0dc6367c8b4641716388dbc2918",
 		}
 		logResult, _ := utils.GeneratedToken(userLogin)
-		//if errCode == utils.RECODE_GENERATETOKENERR {
-		//	logger.Error(errCode)
-		//}
+		if errCode == utils.RECODE_GENERATETOKENERR {
+			logger.Error(errCode)
+		}
 		fmt.Println(logResult)
 	})
 }
