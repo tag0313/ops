@@ -20,7 +20,7 @@
 本地配置文件统一连到坐标悉尼的测试服 `test.opsnft.net` 这包括了 mongodb 和 redis，各位本地测试的话请自行修改 `conf` 目录下**没有** `_online`后缀的配置文件，修改后的本地测试配置请不要提交到 git 上。
 
 ### 本地调试方法
-请先安装 `consul` 并启动服务……
+请先安装 `consul` 并启动服务…… 
 
 ```
 brew install consul
