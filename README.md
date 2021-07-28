@@ -54,7 +54,7 @@ make docker_build
 ## 运行
 ### 运行单个服务
 ```bash
-./bin/api -f conf/api.api   # 注意：所有服务都要显示的指定配置文件的路径 
+./bin/api -f conf/api.api   # 注意：所有服务都要显示的指定配置文件的路径
 ```
 
 ### 运行所有服务
