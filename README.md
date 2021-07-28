@@ -65,7 +65,7 @@ redis  6379
 
 启动好以上服务后，再通过 docker-compose 启动所有其他服务，你也可以停掉其中一个服务，并手动从 bin 目录启动一个服务。
 ```bash
-make up  # docker-compose 配置在 deployment/docker-compose-local.yaml 
+make up  # docker-compose 配置在 deployment/docker-compose-local.yaml
 ```
 以上命令会运行除 api 服务以外所有的服务。由于 api 需要暴露端口，走 host 网络模式无法直接运行。需单独运行。
 
